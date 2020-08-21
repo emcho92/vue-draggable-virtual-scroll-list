@@ -38,12 +38,13 @@ export default class DraggablePolicy<T> {
     instruction: Instruction<T>,
     draggingRealIndex: number) {
     const newList = [...this.dataSources];
+    let item = null;
 
     if ('moved' in instruction) {
       const { newIndex } = instruction.moved;
       const start = this.visibleRange.start + newIndex;
       const deleteCount = 0;
-      const item = newList.splice(draggingRealIndex, 1)[0];
+      item = newList.splice(draggingRealIndex, 1)[0];
       logger.debug(`Move by splicing start: ${start},`
                    + ` deleteCount: ${deleteCount}, item:`, item);
       newList.splice(start, deleteCount, item);
@@ -51,7 +52,7 @@ export default class DraggablePolicy<T> {
       const { newIndex, element } = instruction.added;
       const start = this.visibleRange.start + newIndex;
       const deleteCount = 0;
-      const item = element;
+      item = element;
       logger.debug(`Add by splicing start: ${start},`
                    + ` deleteCount: ${deleteCount}, item:`, item);
       newList.splice(start, deleteCount, item);
@@ -62,8 +63,12 @@ export default class DraggablePolicy<T> {
       logger.debug(`Remove by splicing start: ${start},`
                    + ` deleteCount: ${deleteCount}`);
       newList.splice(start, deleteCount);
+      item = null;
     }
 
-    return newList;
+    return {
+      list: newList,
+      item
+    };
   }
 }

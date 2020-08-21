@@ -21,5 +21,8 @@ export default class DraggablePolicy<T> {
         start: number;
     });
     findRealItem(item: T): T;
-    updatedSources(instruction: Instruction<T>, draggingRealIndex: number): T[];
+    updatedSources(instruction: Instruction<T>, draggingRealIndex: number): {
+        list: T[];
+        item: T;
+    };
 }
