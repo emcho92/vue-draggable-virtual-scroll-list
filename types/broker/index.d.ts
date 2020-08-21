@@ -26,7 +26,8 @@ export declare enum SortableEvents {
     unchoose = 6,
     sort = 7,
     filter = 8,
-    clone = 9
+    clone = 9,
+    move = 10
 }
 declare type DraggableEvent<T> = Instruction<T> & Event;
 export default function createBroker(VirtualList: IVirtualList): IVirtualList;
