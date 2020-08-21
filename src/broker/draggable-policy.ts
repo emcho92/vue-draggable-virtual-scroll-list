@@ -38,37 +38,39 @@ export default class DraggablePolicy<T> {
     instruction: Instruction<T>,
     draggingRealIndex: number) {
     const newList = [...this.dataSources];
-    let item = null;
+    let index = null;
 
     if ('moved' in instruction) {
       const { newIndex } = instruction.moved;
+      index = newIndex;
       const start = this.visibleRange.start + newIndex;
       const deleteCount = 0;
-      item = newList.splice(draggingRealIndex, 1)[0];
+      const item = newList.splice(draggingRealIndex, 1)[0];
       logger.debug(`Move by splicing start: ${start},`
                    + ` deleteCount: ${deleteCount}, item:`, item);
       newList.splice(start, deleteCount, item);
     } else if ('added' in instruction) {
       const { newIndex, element } = instruction.added;
+      index = newIndex;
       const start = this.visibleRange.start + newIndex;
       const deleteCount = 0;
-      item = element;
+      const item = element;
       logger.debug(`Add by splicing start: ${start},`
                    + ` deleteCount: ${deleteCount}, item:`, item);
       newList.splice(start, deleteCount, item);
     } else if ('removed' in instruction) {
       const { oldIndex } = instruction.removed;
+      index = null;
       const start = this.visibleRange.start + oldIndex;
       const deleteCount = 1;
       logger.debug(`Remove by splicing start: ${start},`
                    + ` deleteCount: ${deleteCount}`);
       newList.splice(start, deleteCount);
-      item = null;
     }
 
     return {
       list: newList,
-      item
+      index
     };
   }
 }
