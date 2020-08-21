@@ -32,7 +32,7 @@ export interface IVirtualList extends VueConstructor {
 
 export enum SortableEvents {
   start, add, remove, update, end,
-  choose, unchoose, sort, filter, clone,
+  choose, unchoose, sort, filter, clone, move
 }
 
 type DraggableEvent<T> = Instruction<T> & Event;
@@ -83,6 +83,8 @@ export default function createBroker(VirtualList: IVirtualList): IVirtualList {
 
             // policy will find the real item from x.
             clone: (x: T) => draggablePolicy.findRealItem(x),
+
+            move: (e: T) => this.$emit('move', e)
           },
           on: {
             // Convert Draggable's change events to input events.
